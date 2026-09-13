@@ -5,7 +5,7 @@
 }
 
 html {
-  font-size: 14.5px; /* Уменьшен общий масштаб шрифтов */
+  font-size: 16px;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
@@ -18,7 +18,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100dvh;
-  padding-bottom: calc(var(--dock-height) + 50px);
+  padding-bottom: calc(var(--dock-height) + 56px);
   position: relative;
   overflow-x: hidden;
 }
