@@ -1,142 +1,208 @@
-(function () {
-  'use strict';
+/**
+ * VALENTINA NAILS — Production Script
+ * Без синтаксических склеек, с чистой инициализацией анимаций и калькулятора.
+ */
 
-  var selected = new Map();
-  var counterEl = document.getElementById('dock-counter');
-  var openOrderBtn = document.getElementById('open-order-btn');
-  var orderModal = document.getElementById('order-modal');
-  var orderModalClose = document.getElementById('order-modal-close');
-  var orderForm = document.getElementById('order-form');
-  var previewEl = document.getElementById('order-services-preview');
-  var baseProfileUrl = 'https://max.ru/u/f9LHodD0cOKqoPsd_Nw4LzKoPxXF-Y3RIXTB4YAE0KlUggtgNmnXoHqGal0';
-
-  function formatMoney(num) {
-    return num.toLocaleString('ru-RU') + ' ₽';
+// 1. Движок анимаций скролла (MotionEngine)
+class MotionEngine {
+  constructor() {
+    this.initObservers();
   }
 
-  function renderCalculator() {
-    var total = 0;
-    selected.forEach(function (s) { total += s.price; });
-    var count = selected.size;
+  initObservers() {
+    const observerOptions = {
+      root: null,
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
 
-    if (counterEl) {
-      var noun = 'услуг';
-      if (count === 1) noun = 'услуга';
-      else if (count >= 2 && count <= 4) noun = 'услуги';
-      counterEl.textContent = count + ' ' + noun + ' · ' + formatMoney(total);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    const animatedElements = document.querySelectorAll(
+      '.hero, .facts, .price-section, .gallery-section, .contact-section, .service-row, .bento__cell'
+    );
+
+    animatedElements.forEach((el) => observer.observe(el));
+
+    // Проверка наличия секции услуг
+    const services = document.getElementById('services') || document.getElementById('price');
+    if (services) {
+      observer.observe(services);
+    }
+  }
+}
+
+// 2. Инициализация всего интерактива после загрузки DOM
+document.addEventListener('DOMContentLoaded', () => {
+  // Запуск движка анимаций
+  new MotionEngine();
+
+  const MAX_BASE_URL = 'https://max.ru/u/f9LHodD0cOKqoPsd_Nw4LzKoPxXF-Y3RIXTB4YAE0KlUggtgNmnXoHqGal0';
+  const selectedServices = [];
+
+  // DOM Элементы
+  const header = document.getElementById('nav') || document.getElementById('header');
+  const dock = document.getElementById('dock') || document.getElementById('dock-bar');
+  const dockCounter = document.getElementById('dock-counter') || document.getElementById('dock-calc');
+  const openOrderBtn = document.getElementById('dock-btn-order') || document.getElementById('btn-open-modal') || document.getElementById('open-order-btn');
+  
+  const modal = document.getElementById('order-modal') || document.getElementById('modal-overlay');
+  const modalCloseBtn = document.getElementById('modal-close') || document.getElementById('btn-close-modal');
+  const modalList = document.getElementById('modal-list') || document.getElementById('modal-services-list');
+  const modalTotal = document.getElementById('modal-total-val') || document.getElementById('modal-total');
+  const btnSubmitMax = document.getElementById('btn-submit-max') || document.getElementById('btn-send-max');
+
+  const lightbox = document.getElementById('lightbox') || document.getElementById('lightbox-modal');
+  const lightboxImg = document.getElementById('lightbox-img');
+
+  // Анимация шапки при скролле
+  window.addEventListener('scroll', () => {
+    if (!header) return;
+    if (window.scrollY > 20) {
+      header.classList.add('is-scrolled');
+    } else {
+      header.classList.remove('is-scrolled');
+    }
+  }, { passive: true });
+
+  // Логика аккордеона категорий (если присутствует)
+  const priceHeaders = document.querySelectorAll('.price-group__header, .price__header');
+  priceHeaders.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const group = btn.closest('.price-group, .price__group');
+      if (group) {
+        group.classList.toggle('is-open');
+        group.classList.toggle('collapsed');
+      }
+    });
+  });
+
+  // Логика выбора услуг (Калькулятор)
+  const serviceRows = document.querySelectorAll('.service-row, .service-item-row');
+  serviceRows.forEach((row) => {
+    row.addEventListener('click', () => {
+      const id = row.dataset.id;
+      const name = row.dataset.name || row.querySelector('.service-name, .service-title-text')?.textContent?.trim();
+      const price = parseInt(row.dataset.price, 10);
+
+      if (!id || isNaN(price)) return;
+
+      const existingIndex = selectedServices.findIndex((item) => item.id === id);
+
+      if (existingIndex > -1) {
+        selectedServices.splice(existingIndex, 1);
+        row.classList.remove('is-selected', 'is-checked');
+      } else {
+        selectedServices.push({ id, name, price });
+        row.classList.add('is-selected', 'is-checked');
+      }
+
+      updateDock();
+    });
+  });
+
+  function updateDock() {
+    if (!dockCounter) return;
+    const count = selectedServices.length;
+    const total = selectedServices.reduce((sum, item) => sum + item.price, 0);
+    dockCounter.textContent = `${count} услуг · ${total.toLocaleString('ru-RU')} ₽`;
+  }
+
+  // Открытие модалки оформления
+  if (openOrderBtn && modal) {
+    openOrderBtn.addEventListener('click', () => {
+      renderModal();
+      modal.removeAttribute('hidden');
+      modal.classList.add('is-open', 'is-active', 'open');
+    });
+  }
+
+  // Закрытие модалки
+  function closeModal() {
+    if (!modal) return;
+    modal.setAttribute('hidden', '');
+    modal.classList.remove('is-open', 'is-active', 'open');
+  }
+
+  if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+  }
+
+  function renderModal() {
+    if (!modalList || !modalTotal) return;
+
+    if (selectedServices.length === 0) {
+      modalList.innerHTML = '<p style="color: var(--ink-muted, #8E8E9A); font-size: 0.95rem; padding: 12px 0;">Услуги не выбраны. Вы можете перейти в чат для прямой консультации.</p>';
+      modalTotal.textContent = '0 ₽';
+      return;
     }
 
-    if (previewEl) {
-      if (count === 0) {
-        previewEl.textContent = 'Услуги не выбраны (вопрос мастеру)';
-      } else {
-        var names = [];
-        selected.forEach(function (s) { names.push(s.name); });
-        previewEl.innerHTML = names.join('<br>') + '<div style="margin-top:6px; color:var(--accent-terra); font-weight:600;">Итого: ' + formatMoney(total) + '</div>';
+    modalList.innerHTML = selectedServices.map((item) => `
+      <div class="modal__item" style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #EBEBF0;">
+        <span>${item.name}</span>
+        <b>${item.price.toLocaleString('ru-RU')} ₽</b>
+      </div>
+    `).join('');
+
+    const total = selectedServices.reduce((sum, item) => sum + item.price, 0);
+    modalTotal.textContent = `${total.toLocaleString('ru-RU')} ₽`;
+  }
+
+  // Переход в MAX с автогенерацией сообщения
+  if (btnSubmitMax) {
+    btnSubmitMax.addEventListener('click', () => {
+      let message = 'Здравствуйте, Валентина! Хочу записаться к вам на маникюр.';
+
+      if (selectedServices.length > 0) {
+        const list = selectedServices.map((s) => `• ${s.name} (${s.price} ₽)`).join('\n');
+        const total = selectedServices.reduce((sum, item) => sum + item.price, 0);
+        message += `\n\nВыбранные процедуры:\n${list}\n\nОриентировочная стоимость: ${total} ₽`;
+      }
+
+      const targetUrl = `${MAX_BASE_URL}?text=${encodeURIComponent(message)}`;
+      window.open(targetUrl, '_blank');
+    });
+  }
+
+  // Лайтбокс для картинок галереи
+  const galleryCells = document.querySelectorAll('.bento__cell, .bento-cell, .bento-tile');
+  galleryCells.forEach((cell) => {
+    cell.addEventListener('click', () => {
+      const src = cell.dataset.src || cell.querySelector('img')?.getAttribute('src');
+      if (lightbox && lightboxImg && src) {
+        lightboxImg.src = src;
+        lightbox.removeAttribute('hidden');
+        lightbox.classList.add('is-open', 'is-active', 'open');
+      }
+    });
+  });
+
+  if (lightbox) {
+    lightbox.addEventListener('click', () => {
+      lightbox.setAttribute('hidden', '');
+      lightbox.classList.remove('is-open', 'is-active', 'open');
+    });
+  }
+
+  // Закрытие окон клавишей Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeModal();
+      if (lightbox) {
+        lightbox.setAttribute('hidden', '');
+        lightbox.classList.remove('is-open', 'is-active', 'open');
       }
     }
-  }
-
-  function initCalculator() {
-    var rows = document.querySelectorAll('.service-row');
-    rows.forEach(function (row) {
-      row.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        var id = row.getAttribute('data-id') || row.innerText.trim();
-        var nameEl = row.querySelector('.service-name');
-        var name = row.getAttribute('data-name') || (nameEl ? nameEl.innerText : 'Услуга');
-        var price = parseInt(row.getAttribute('data-price'), 10) || 0;
-
-        if (selected.has(id)) {
-          selected.delete(id);
-          row.classList.remove('is-selected');
-        } else {
-          selected.set(id, { name: name, price: price });
-          row.classList.add('is-selected');
-        }
-
-        renderCalculator();
-      });
-    });
-
-    renderCalculator();
-  }
-
-  function initOrderModal() {
-    if (!openOrderBtn || !orderModal) return;
-
-    openOrderBtn.addEventListener('click', function () {
-      orderModal.classList.add('is-open');
-    });
-
-    function closeModal() {
-      orderModal.classList.remove('is-open');
-    }
-
-    if (orderModalClose) orderModalClose.addEventListener('click', closeModal);
-    orderModal.addEventListener('click', function (e) {
-      if (e.target === orderModal) closeModal();
-    });
-
-    if (orderForm) {
-      orderForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        var nameVal = document.getElementById('client-name').value.trim();
-        var timeVal = document.getElementById('client-time').value.trim();
-        var total = 0;
-        selected.forEach(function (s) { total += s.price; });
-
-        var msgParts = ['Здравствуйте, Валентина!'];
-        if (nameVal) msgParts.push('Меня зовут ' + nameVal + '.');
-        if (timeVal) msgParts.push('Хотела бы записаться на ' + timeVal + '.');
-
-        if (selected.size > 0) {
-          msgParts.push('\nВыбрала услуги:');
-          selected.forEach(function (s) { msgParts.push('• ' + s.name); });
-          msgParts.push('Итого: ' + formatMoney(total));
-        } else {
-          msgParts.push('\nПодскажите, пожалуйста, адрес кабинета и свободные окна для записи.');
-        }
-
-        var fullMsg = msgParts.join('\n');
-
-        if (navigator.clipboard) {
-          navigator.clipboard.writeText(fullMsg).catch(function () {});
-        }
-
-        closeModal();
-        window.open(baseProfileUrl + '?text=' + encodeURIComponent(fullMsg), '_blank');
-      });
-    }
-  }
-
-  function initLightbox() {
-    var modal = document.getElementById('lightbox-modal');
-    var modalImg = document.getElementById('lightbox-img');
-    var closeBtn = document.getElementById('lightbox-close');
-    var cells = document.querySelectorAll('.gallery-cell');
-
-    if (!modal || !modalImg) return;
-
-    cells.forEach(function (cell) {
-      cell.addEventListener('click', function () {
-        var img = cell.querySelector('img');
-        if (!img) return;
-        modalImg.src = img.src;
-        modal.classList.add('is-open');
-      });
-    });
-
-    function close() { modal.classList.remove('is-open'); }
-    if (closeBtn) closeBtn.addEventListener('click', close);
-    modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
-  }
-
-  document.addEventListener('DOMContentLoaded', function () {
-    initCalculator();
-    initOrderModal();
-    initLightbox();
   });
-})();
+});
