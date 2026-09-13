@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const MAX_PROFILE_URL = 'https://max.ru/u/f9LHodD0cOKqoPsd_Nw4LzKoPxXF-Y3RIXTB4YAE0KlUggtgNmnXoHqGal0';
   const selectedServices = [];
 
+  // --- БУРГЕР МЕНЮ ---
   const burgerBtn = document.getElementById('burger-btn');
   const navMenu = document.getElementById('nav-menu');
 
@@ -22,9 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // --- ВЫБОР УСЛУГ И ДОК-БАР ---
   const dockCounter = document.getElementById('dock-counter');
   const openOrderBtn = document.getElementById('dock-btn-order');
-
   const modal = document.getElementById('order-modal');
   const modalBackdrop = document.getElementById('modal-backdrop');
   const modalCloseBtn = document.getElementById('modal-close');
@@ -41,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const price = parseInt(row.dataset.price, 10);
 
       if (!id || isNaN(price)) return;
-
       const idx = selectedServices.findIndex((item) => item.id === id);
 
       if (idx > -1) {
@@ -51,7 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedServices.push({ id, name, price });
         row.classList.add('is-selected');
       }
-
       updateDockUI();
     });
   });
@@ -63,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     dockCounter.textContent = `${count} услуг · ${total.toLocaleString('ru-RU')} ₽`;
   }
 
+  // --- ГЕНЕРАЦИЯ ТЕКСТА И КОПИРОВАНИЕ ---
   function generateMessage() {
     let text = 'Здравствуйте, Валентина! Хочу записаться к вам на маникюр.';
     if (selectedServices.length > 0) {
@@ -75,7 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function copyOrderAndGoToMax() {
     const textToCopy = generateMessage();
-
+    
+    // Копируем в буфер обмена
     try {
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(textToCopy);
@@ -85,34 +86,35 @@ document.addEventListener('DOMContentLoaded', () => {
         textArea.style.position = 'fixed';
         textArea.style.opacity = '0';
         document.body.appendChild(textArea);
-        textArea.focus();
         textArea.select();
         document.execCommand('copy');
         document.body.removeChild(textArea);
       }
     } catch (err) {
-      console.warn('Не удалось автоматически скопировать текст', err);
+      console.warn('Ошибка копирования', err);
     }
 
+    // Меняем текст кнопки для обратной связи
     if (modalSubmitText) {
-      modalSubmitText.textContent = 'Скопировано! Открываем MAX...';
+      modalSubmitText.textContent = 'Скопировано! Открываем чат...';
+    } else if (openOrderBtn) {
+      const btnText = openOrderBtn.querySelector('span');
+      if (btnText) btnText.textContent = 'Скопировано!';
     }
 
+    // Переход в чат MAX (чистая ссылка на профиль)
     setTimeout(() => {
       window.location.href = MAX_PROFILE_URL;
-    }, 400);
+    }, 600);
   }
 
+  // --- МОДАЛЬНОЕ ОКНО ---
   function openOrderModal() {
     if (!modal) {
       copyOrderAndGoToMax();
       return;
     }
-
-    if (modalSubmitText) {
-      modalSubmitText.textContent = 'Скопировать заказ и перейти в MAX';
-    }
-
+    if (modalSubmitText) modalSubmitText.textContent = 'Скопировать заказ и перейти в MAX';
     renderModalItems();
     modal.removeAttribute('hidden');
     document.body.style.overflow = 'hidden';
@@ -126,20 +128,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderModalItems() {
     if (!modalList || !modalTotal) return;
-
     if (selectedServices.length === 0) {
       modalList.innerHTML = '<p style="color:#777785; padding:16px 0; font-size:0.95rem;">Вы не выбрали ни одной услуги. Нажмите кнопку ниже, чтобы открыть чат с мастером.</p>';
       modalTotal.textContent = '0 ₽';
       return;
     }
-
     modalList.innerHTML = selectedServices.map((item) => `
-      <div class="modal__item">
+      <div class="modal__item" style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #ECEAE5;">
         <span>${item.name}</span>
         <b>${item.price.toLocaleString('ru-RU')} ₽</b>
       </div>
     `).join('');
-
     const total = selectedServices.reduce((sum, item) => sum + item.price, 0);
     modalTotal.textContent = `${total.toLocaleString('ru-RU')} ₽`;
   }
@@ -152,21 +151,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (modalCloseBtn) {
-    modalCloseBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      closeOrderModal();
-    });
-    modalCloseBtn.addEventListener('touchend', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      closeOrderModal();
-    });
+    ['click', 'touchend'].forEach(evt => 
+      modalCloseBtn.addEventListener(evt, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        closeOrderModal();
+      })
+    );
   }
 
-  if (modalBackdrop) {
-    modalBackdrop.addEventListener('click', closeOrderModal);
-  }
+  if (modalBackdrop) modalBackdrop.addEventListener('click', closeOrderModal);
 
   if (btnSubmitMax) {
     btnSubmitMax.addEventListener('click', (e) => {
@@ -175,11 +169,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // --- ЛАЙТБОКС (Просмотр фото) ---
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightbox-img');
-  const bentoCells = document.querySelectorAll('.bento__cell');
-
-  bentoCells.forEach((cell) => {
+  document.querySelectorAll('.bento__cell').forEach((cell) => {
     cell.addEventListener('click', () => {
       const src = cell.dataset.src;
       if (lightbox && lightboxImg && src) {
@@ -188,12 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-
-  if (lightbox) {
-    lightbox.addEventListener('click', () => {
-      lightbox.setAttribute('hidden', '');
-    });
-  }
+  if (lightbox) lightbox.addEventListener('click', () => lightbox.setAttribute('hidden', ''));
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
