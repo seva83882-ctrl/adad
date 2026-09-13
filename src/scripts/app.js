@@ -1,9 +1,3 @@
-/**
- * VALENTINA NAILS — Production Script
- * Без синтаксических склеек, с чистой инициализацией анимаций и калькулятора.
- */
-
-// 1. Движок анимаций скролла (MotionEngine)
 class MotionEngine {
   constructor() {
     this.initObservers();
@@ -31,7 +25,6 @@ class MotionEngine {
 
     animatedElements.forEach((el) => observer.observe(el));
 
-    // Проверка наличия секции услуг
     const services = document.getElementById('services') || document.getElementById('price');
     if (services) {
       observer.observe(services);
@@ -39,20 +32,34 @@ class MotionEngine {
   }
 }
 
-// 2. Инициализация всего интерактива после загрузки DOM
 document.addEventListener('DOMContentLoaded', () => {
-  // Запуск движка анимаций
   new MotionEngine();
 
-  const MAX_BASE_URL = 'https://max.ru/u/f9LHodD0cOKqoPsd_Nw4LzKoPxXF-Y3RIXTB4YAE0KlUggtgNmnXoHqGal0';
+  const MAX_PROFILE_URL = 'https://max.ru/u/f9LHodD0cOKqoPsd_Nw4LzKoPxXF-Y3RIXTB4YAE0KlUggtgNmnXoHqGal0';
   const selectedServices = [];
 
-  // DOM Элементы
+  const burgerBtn = document.getElementById('burger-btn');
+  const navMenu = document.getElementById('nav-menu');
+
+  if (burgerBtn && navMenu) {
+    burgerBtn.addEventListener('click', () => {
+      burgerBtn.classList.toggle('is-active');
+      navMenu.classList.toggle('is-active');
+    });
+
+    navMenu.querySelectorAll('.nav-link').forEach((link) => {
+      link.addEventListener('click', () => {
+        burgerBtn.classList.remove('is-active');
+        navMenu.classList.remove('is-active');
+      });
+    });
+  }
+
   const header = document.getElementById('nav') || document.getElementById('header');
   const dock = document.getElementById('dock') || document.getElementById('dock-bar');
   const dockCounter = document.getElementById('dock-counter') || document.getElementById('dock-calc');
   const openOrderBtn = document.getElementById('dock-btn-order') || document.getElementById('btn-open-modal') || document.getElementById('open-order-btn');
-  
+
   const modal = document.getElementById('order-modal') || document.getElementById('modal-overlay');
   const modalCloseBtn = document.getElementById('modal-close') || document.getElementById('btn-close-modal');
   const modalList = document.getElementById('modal-list') || document.getElementById('modal-services-list');
@@ -62,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const lightbox = document.getElementById('lightbox') || document.getElementById('lightbox-modal');
   const lightboxImg = document.getElementById('lightbox-img');
 
-  // Анимация шапки при скролле
   window.addEventListener('scroll', () => {
     if (!header) return;
     if (window.scrollY > 20) {
@@ -72,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, { passive: true });
 
-  // Логика аккордеона категорий (если присутствует)
   const priceHeaders = document.querySelectorAll('.price-group__header, .price__header');
   priceHeaders.forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -84,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Логика выбора услуг (Калькулятор)
   const serviceRows = document.querySelectorAll('.service-row, .service-item-row');
   serviceRows.forEach((row) => {
     row.addEventListener('click', () => {
@@ -115,35 +119,24 @@ document.addEventListener('DOMContentLoaded', () => {
     dockCounter.textContent = `${count} услуг · ${total.toLocaleString('ru-RU')} ₽`;
   }
 
-  // Открытие модалки оформления
-  if (openOrderBtn && modal) {
-    openOrderBtn.addEventListener('click', () => {
-      renderModal();
-      modal.removeAttribute('hidden');
-      modal.classList.add('is-open', 'is-active', 'open');
-    });
-  }
+  function redirectToMax() {
+    let message = 'Здравствуйте, Валентина! Хочу записаться к вам на маникюр.';
 
-  // Закрытие модалки
-  function closeModal() {
-    if (!modal) return;
-    modal.setAttribute('hidden', '');
-    modal.classList.remove('is-open', 'is-active', 'open');
-  }
+    if (selectedServices.length > 0) {
+      const list = selectedServices.map((s) => `• ${s.name} (${s.price} ₽)`).join('\n');
+      const total = selectedServices.reduce((sum, item) => sum + item.price, 0);
+      message += `\n\nВыбранные услуги:\n${list}\n\nПримерная стоимость: ${total} ₽`;
+    }
 
-  if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
-
-  if (modal) {
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
+    const finalUrl = `${MAX_PROFILE_URL}?message=${encodeURIComponent(message)}&text=${encodeURIComponent(message)}`;
+    window.location.href = finalUrl;
   }
 
   function renderModal() {
     if (!modalList || !modalTotal) return;
 
     if (selectedServices.length === 0) {
-      modalList.innerHTML = '<p style="color: var(--ink-muted, #8E8E9A); font-size: 0.95rem; padding: 12px 0;">Услуги не выбраны. Вы можете перейти в чат для прямой консультации.</p>';
+      modalList.innerHTML = '<p style="color: #8E8E9A; font-size: 0.95rem; padding: 12px 0;">Услуги не выбраны. Вы можете перейти в чат для прямой консультации.</p>';
       modalTotal.textContent = '0 ₽';
       return;
     }
@@ -159,23 +152,36 @@ document.addEventListener('DOMContentLoaded', () => {
     modalTotal.textContent = `${total.toLocaleString('ru-RU')} ₽`;
   }
 
-  // Переход в MAX с автогенерацией сообщения
-  if (btnSubmitMax) {
-    btnSubmitMax.addEventListener('click', () => {
-      let message = 'Здравствуйте, Валентина! Хочу записаться к вам на маникюр.';
+  function closeModal() {
+    if (!modal) return;
+    modal.setAttribute('hidden', '');
+    modal.classList.remove('is-open', 'is-active', 'open');
+  }
 
-      if (selectedServices.length > 0) {
-        const list = selectedServices.map((s) => `• ${s.name} (${s.price} ₽)`).join('\n');
-        const total = selectedServices.reduce((sum, item) => sum + item.price, 0);
-        message += `\n\nВыбранные процедуры:\n${list}\n\nОриентировочная стоимость: ${total} ₽`;
+  if (openOrderBtn) {
+    openOrderBtn.addEventListener('click', () => {
+      if (modal) {
+        renderModal();
+        modal.removeAttribute('hidden');
+        modal.classList.add('is-open', 'is-active', 'open');
+      } else {
+        redirectToMax();
       }
-
-      const targetUrl = `${MAX_BASE_URL}?text=${encodeURIComponent(message)}`;
-      window.open(targetUrl, '_blank');
     });
   }
 
-  // Лайтбокс для картинок галереи
+  if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+  }
+
+  if (btnSubmitMax) {
+    btnSubmitMax.addEventListener('click', redirectToMax);
+  }
+
   const galleryCells = document.querySelectorAll('.bento__cell, .bento-cell, .bento-tile');
   galleryCells.forEach((cell) => {
     cell.addEventListener('click', () => {
@@ -195,7 +201,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Закрытие окон клавишей Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeModal();
