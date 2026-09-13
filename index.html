@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>VALENTINA · NAILS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>VALENTINA NAILS | Студия ногтевого сервиса</title>
   <link rel="stylesheet" href="src/styles/variables.css">
   <link rel="stylesheet" href="src/styles/base.css">
   <link rel="stylesheet" href="src/styles/layout.css">
@@ -11,12 +11,10 @@
 </head>
 <body>
 
-  <!-- ХЕДЕР -->
   <header class="header" id="header">
     <div class="header__container">
       <a href="#" class="header__logo">VALENTINA NAILS</a>
       
-      <!-- Кнопка бургера для мобилок -->
       <button class="burger-btn" id="burger-btn" type="button" aria-label="Меню">
         <span></span>
         <span></span>
@@ -32,176 +30,136 @@
   </header>
 
   <main>
-    <!-- ГЛАВНЫЙ ЭКРАН -->
-    <section class="hero" id="hero">
+    <section class="hero">
       <div class="hero__container">
         <div class="hero__content">
-          <h1 class="hero__title">Эстетика чистоты<br>и безупречной<br>формы.</h1>
-          <p class="hero__subtitle">Студия ногтевого сервиса Валентины. Маникюр, педикюр и<br>уход за ногтями.</p>
+          <h1 class="hero__title">Эстетика чистоты и безупречной формы.</h1>
+          <p class="hero__subtitle">Студия ногтевого сервиса Валентины. Маникюр, педикюр и уход за ногтями.</p>
         </div>
         <div class="hero__image-wrapper">
-          <img src="public/img/master.webp" alt="Мастер Валентина" class="hero__img">
+          <img src="public/img/master.webp" alt="Валентина - мастер ногтевого сервиса" class="hero__image">
         </div>
       </div>
     </section>
 
-    <!-- ПРАЙС-ЛИСТ (Оригинальная сетка из видео) -->
     <section class="price-section" id="services">
-      <div class="section__container">
-        <div class="section__header">
-          <h2 class="section__title">ПРАЙС-ЛИСТ</h2>
-          <span class="section__subtitle-right">Выберите услуги для расчета</span>
+      <div class="price-section__container">
+        <div class="price-section__header">
+          <span class="section-label">ПРАЙС-ЛИСТ</span>
+          <span class="section-hint">Выберите услуги для расчета</span>
         </div>
 
-        <div class="price__grid">
-          <!-- Левая колонка -->
-          <div class="price__col">
-            <h3 class="price__category-title">МАНИКЮР</h3>
-            <div class="service-row" data-id="man-1" data-name="Маникюр с укреплением" data-price="2000">
+        <div class="price-grid">
+          <div class="price-col">
+            <h3 class="price-cat-title">МАНИКЮР</h3>
+            <div class="service-row" data-id="m1" data-name="Маникюр с укреплением" data-price="2000">
               <span class="service-checkbox"></span>
               <span class="service-name">Маникюр с укреплением</span>
               <span class="service-price">2 000 руб</span>
             </div>
-            <div class="service-row" data-id="man-2" data-name="Маникюр с покрытием" data-price="1800">
+            <div class="service-row" data-id="m2" data-name="Маникюр с покрытием" data-price="1800">
               <span class="service-checkbox"></span>
               <span class="service-name">Маникюр с покрытием</span>
               <span class="service-price">1 800 руб</span>
             </div>
-            <div class="service-row" data-id="man-3" data-name="Аэрография" data-price="1500">
+            <div class="service-row" data-id="m3" data-name="Аэрография" data-price="1500">
               <span class="service-checkbox"></span>
               <span class="service-name">Аэрография</span>
               <span class="service-price">1 500 руб</span>
             </div>
-
-            <h3 class="price__category-title" style="margin-top: 32px;">ПАРАФИНОТЕРАПИЯ</h3>
-            <div class="service-row" data-id="par-1" data-name="Парафиновая ванна для рук" data-price="300">
-              <span class="service-checkbox"></span>
-              <span class="service-name">Парафиновая ванна для рук</span>
-              <span class="service-price">300 руб</span>
-            </div>
-            <div class="service-row" data-id="par-2" data-name="Парафиновая ванна для ног" data-price="500">
-              <span class="service-checkbox"></span>
-              <span class="service-name">Парафиновая ванна для ног</span>
-              <span class="service-price">500 руб</span>
-            </div>
           </div>
 
-          <!-- Правая колонка -->
-          <div class="price__col">
-            <h3 class="price__category-title">НАРАЩИВАНИЕ</h3>
-            <div class="service-row" data-id="nar-1" data-name="Наращивание" data-price="2500">
+          <div class="price-col">
+            <h3 class="price-cat-title">НАРАЩИВАНИЕ</h3>
+            <div class="service-row" data-id="n1" data-name="Наращивание" data-price="2500">
               <span class="service-checkbox"></span>
               <span class="service-name">Наращивание</span>
               <span class="service-price">от 2 500 руб</span>
             </div>
-            <div class="service-row" data-id="nar-2" data-name="Коррекция" data-price="2000">
+            <div class="service-row" data-id="n2" data-name="Коррекция" data-price="2000">
               <span class="service-checkbox"></span>
               <span class="service-name">Коррекция</span>
               <span class="service-price">2 000 руб</span>
             </div>
 
-            <h3 class="price__category-title" style="margin-top: 32px;">ПЕДИКЮР</h3>
-            <div class="service-row" data-id="ped-1" data-name="Педикюр гигиенический" data-price="2000">
+            <h3 class="price-cat-title" style="margin-top: 24px;">ПЕДИКЮР</h3>
+            <div class="service-row" data-id="p1" data-name="Педикюр (пальчики)" data-price="1700">
               <span class="service-checkbox"></span>
-              <span class="service-name">Педикюр гигиенический</span>
-              <span class="service-price">2 000 руб</span>
+              <span class="service-name">Педикюр (пальчики)</span>
+              <span class="service-price">1 700 руб</span>
             </div>
-            <div class="service-row" data-id="ped-2" data-name="Педикюр с покрытием" data-price="2500">
+            <div class="service-row" data-id="p2" data-name="Педикюр полный (обработка стопы и пальцев)" data-price="2200">
               <span class="service-checkbox"></span>
-              <span class="service-name">Педикюр с покрытием</span>
-              <span class="service-price">2 500 руб</span>
+              <span class="service-name">Педикюр полный (обработка стопы и пальцев)</span>
+              <span class="service-price">2 200 руб</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ПОРТФОЛИО -->
     <section class="gallery-section" id="works">
-      <div class="section__container">
-        <div class="section__header">
-          <h2 class="section__title">ПОРТФОЛИО</h2>
-          <a href="#" class="section__subtitle-right">Все работы кликабельны</a>
-        </div>
-        <div class="bento__grid">
-          <div class="bento__cell"><img src="public/img/work-coffee.webp" alt="Работа студии"></div>
-          <div class="bento__cell"><img src="public/img/work-silver.webp" alt="Работа студии"></div>
-          <div class="bento__cell"><img src="public/img/work-gradient.webp" alt="Работа студии"></div>
-          <div class="bento__cell"><img src="public/img/work-autumn.webp" alt="Работа студии"></div>
-          <div class="bento__cell"><img src="public/img/work-glitter.webp" alt="Работа студии"></div>
+      <div class="gallery-section__container">
+        <span class="section-label">ПРИМЕРЫ РАБОТ</span>
+        <div class="bento-grid">
+          <div class="bento__cell" data-src="public/img/work-coffee.webp">
+            <img src="public/img/work-coffee.webp" alt="Работа мастера">
+          </div>
+          <div class="bento__cell" data-src="public/img/work-silver.webp">
+            <img src="public/img/work-silver.webp" alt="Работа мастера">
+          </div>
+          <div class="bento__cell" data-src="public/img/work-gradient.webp">
+            <img src="public/img/work-gradient.webp" alt="Работа мастера">
+          </div>
+          <div class="bento__cell" data-src="public/img/work-autumn.webp">
+            <img src="public/img/work-autumn.webp" alt="Работа мастера">
+          </div>
+          <div class="bento__cell" data-src="public/img/work-glitter.webp">
+            <img src="public/img/work-glitter.webp" alt="Работа мастера">
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- КОНТАКТЫ (Оригинальные 3 колонки) -->
     <section class="contact-section" id="contacts">
-      <div class="section__container">
-        <div class="section__header">
-          <h2 class="section__title">КОНТАКТЫ</h2>
-          <a href="#" class="section__subtitle-right">Задать 4 вопроса</a>
-        </div>
-        <div class="contacts__grid">
-          <div class="contact__block">
-            <h4 class="contact__label">АДРЕС</h4>
-            <p class="contact__value">Адрес студии уточняется</p>
-            <span class="contact__subtext">Точный адрес мастер отправит при записи</span>
-          </div>
-          <div class="contact__block">
-            <h4 class="contact__label">ВРЕМЯ РАБОТЫ</h4>
-            <p class="contact__value">По записи</p>
-            <span class="contact__subtext">Подберем удобный день и время</span>
-          </div>
-          <div class="contact__block">
-            <h4 class="contact__label">ЗАПИСЬ ОНЛАЙН</h4>
-            <p class="contact__value">В чате MAX</p>
-            <span class="contact__subtext">Быстрый ответ и сообщения</span>
-          </div>
-        </div>
+      <div class="contact-section__container">
+        <span class="section-label">КОНТАКТЫ</span>
+        <h2 class="contact-title">Запись на процедуры</h2>
+        <p class="contact-desc">Студия находится по адресу: г. Москва. Приём осуществляется по предварительной записи через мессенджер MAX.</p>
+        <a href="https://max.ru/u/f9LHodD0cOKqoPsd_Nw4LzKoPxXF-Y3RIXTB4YAE0KlUggtgNmnXoHqGal0" class="direct-max-btn">Написать в MAX</a>
       </div>
     </section>
   </main>
 
-  <!-- НИЖНЯЯ ПАНЕЛЬ (DOCK) -->
+  <footer class="footer">
+    <div class="footer__container">
+      <p>© 2026 VALENTINA NAILS. Все права защищены.</p>
+    </div>
+  </footer>
+
   <div class="dock" id="dock">
     <div class="dock__container">
       <div class="dock__counter" id="dock-counter">0 услуг · 0 ₽</div>
-      <button class="dock__btn" id="dock-btn-order" type="button">
-        <span id="dock-btn-text">Записаться в MAX</span>
+      <button type="button" class="dock__btn" id="dock-btn-order">
+        <span>Записаться в MAX</span>
+        <img src="public/img/max-icon.jpg" alt="MAX" class="dock__icon">
       </button>
     </div>
   </div>
 
-  <!-- ОРИГИНАЛЬНОЕ МОДАЛЬНОЕ ОКНО С ПОЛЯМИ ВВОДА -->
   <div class="modal" id="order-modal" hidden>
-    <div class="modal__backdrop" id="modal-backdrop"></div>
-    <div class="modal__dialog">
-      <button class="modal__close" id="modal-close" type="button">×</button>
-      
-      <div class="modal__header">
-        <h3 class="modal__title">Запись к мастеру</h3>
-        <p class="modal__subtitle">Укажите имя и желаемое время</p>
+    <div class="modal__overlay" id="modal-overlay-bg"></div>
+    <div class="modal__content">
+      <button type="button" class="modal__close" id="modal-close" aria-label="Закрыть">×</button>
+      <h3 class="modal__title">Выбранные услуги</h3>
+      <div class="modal__list" id="modal-list"></div>
+      <div class="modal__footer">
+        <div class="modal__total-wrap">
+          <span>Итого к оплате:</span>
+          <b id="modal-total-val">0 ₽</b>
+        </div>
+        <button type="button" class="modal__submit-btn" id="btn-submit-max">Перейти к записи в MAX</button>
       </div>
-
-      <div class="modal__list" id="modal-list">
-        <!-- Услуги генерируются через JS -->
-      </div>
-      
-      <div class="modal__total-wrap">
-        <span>Итого:</span>
-        <span class="modal__total-val" id="modal-total-val">0 ₽</span>
-      </div>
-
-      <div class="modal__form">
-        <label class="modal__label">ВАШЕ ИМЯ</label>
-        <input type="text" id="client-name" class="modal__input" placeholder="Валентина">
-        
-        <label class="modal__label">УДОБНЫЙ ДЕНЬ ИЛИ ВРЕМЯ</label>
-        <input type="text" id="client-time" class="modal__input" placeholder="понедельник 14">
-      </div>
-
-      <button class="modal__submit-btn" id="btn-submit-max" type="button">
-        <span id="modal-submit-text">Написать в MAX</span>
-      </button>
     </div>
   </div>
 
