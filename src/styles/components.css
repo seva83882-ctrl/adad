@@ -1,194 +1,14 @@
 /* ==========================================================================
-   1. Блок Hero (Главный экран)
+   1. Строки прайс-листа (Калькулятор)
    ========================================================================== */
-/* ==========================================================================
-   Hero — точная копия со 2-го скриншота
-   ========================================================================== */
-.hero {
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 40px 20px 50px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 40px;
-}
-
-.hero__content {
-  flex: 1;
-  max-width: 520px;
-}
-
-.hero__title {
-  font-family: var(--font-serif);
-  font-size: 2.85rem;
-  font-weight: 400;
-  line-height: 1.15;
-  color: var(--text-primary);
-  letter-spacing: -0.02em;
-  margin-bottom: 20px;
-}
-
-.hero__desc {
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  line-height: 1.55;
-  max-width: 420px;
-}
-
-/* Компактный контейнер 3:4 — не растягивается */
-.hero__media,
-.hero__photo-card {
-  width: 290px !important;       /* Уменьшенный фиксированный размер */
-  height: 380px !important;      /* Пропорции 3:4 */
-  flex-shrink: 0;
-  border-radius: 20px;
-  overflow: hidden;
-  background: #C4BBB0;
-  box-shadow: 0 16px 36px rgba(28, 24, 21, 0.08);
-}
-
-/* Убираем лишнее пустое пространство над головой мастера */
-.hero__media img,
-.hero__photo-card img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  object-position: center 30% !important; /* Центрирует и срезает лишний фон сверху */
-  transform: scale(1.08);                 /* Легкий зум, чтобы лицо и руки заполнили кадр */
-  display: block;
-}
-
-/* ==========================================================================
-   2. Портфолио (Сетка в 3 колонки со скриншота)
-   ========================================================================== */
-.portfolio-container,
-.gallery-section {
-  max-width: 1040px;
-  margin: 0 auto 50px;
-  padding: 0 20px;
-}
-
-/* Сетка ровно на 3 колонки и 2 строки фиксированной высоты */
-.bento,
-.portfolio__grid {
-  display: grid !important;
-  grid-template-columns: 1.15fr 1fr 1fr !important;
-  grid-template-rows: 210px 210px !important;
-  gap: 14px !important;
-}
-
-.bento__cell,
-.portfolio__item {
-  position: relative;
-  border-radius: 10px;
-  overflow: hidden;
-  background: var(--bg-surface);
-  cursor: pointer;
-  margin: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-}
-
-.bento__cell img,
-.portfolio__item img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  display: block;
-  transition: transform 0.3s ease;
-}
-
-.bento__cell:hover img,
-.portfolio__item:hover img {
-  transform: scale(1.03);
-}
-
-/* Первое фото (с кофе) строго занимает всю первую колонку на обе строки */
-.bento__cell:first-child,
-.portfolio__item:first-child {
-  grid-column: 1 / 2 !important;
-  grid-row: 1 / span 2 !important;
-  height: 100% !important;
-}
-
-/* Второе и третье фото (верхний ряд) */
-.bento__cell:nth-child(2) { grid-column: 2; grid-row: 1; }
-.bento__cell:nth-child(3) { grid-column: 3; grid-row: 1; }
-
-/* Четвертое и пятое фото (нижний ряд) */
-.bento__cell:nth-child(4) { grid-column: 2; grid-row: 2; }
-.bento__cell:nth-child(5) { grid-column: 3; grid-row: 2; }
-
-
-/* ==========================================================================
-   3. МОБИЛЬНАЯ ВЕРСИЯ
-   ========================================================================== */
-@media (max-width: 768px) {
-  .hero {
-    flex-direction: column-reverse;
-    text-align: center;
-    padding: 24px 16px 36px;
-    gap: 24px;
-  }
-  .hero__content {
-    max-width: 100%;
-  }
-  .hero__title {
-    font-size: 2.2rem;
-  }
-  .hero__media,
-  .hero__photo-card {
-    width: 240px !important;
-    height: 320px !important;
-    margin: 0 auto;
-  }
-  .bento,
-  .portfolio__grid {
-    grid-template-columns: 1fr 1fr !important;
-    grid-template-rows: auto !important;
-  }
-  .bento__cell:first-child,
-  .portfolio__item:first-child {
-    grid-column: 1 / span 2 !important;
-    aspect-ratio: 4 / 3;
-    height: auto !important;
-  }
-}
-
-/* ==========================================================================
-   3. Строки прайс-листа (Калькулятор)
-   ========================================================================== */
-.price-container {
-  max-width: var(--site-width);
-  margin: 0 auto 56px;
-  padding: 0 20px;
-}
-
-.price-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 40px;
-  row-gap: 24px;
-}
-
-.price-group-title {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-weight: 600;
-  color: var(--accent-terra);
-  margin-bottom: 8px;
-}
-
 .service-row {
   display: flex;
   align-items: center;
-  padding: 10px 8px;
+  padding: 12px 10px;
   border-bottom: 1px solid var(--hairline);
   cursor: pointer !important;
   user-select: none;
-  min-height: 46px;
+  min-height: 48px;
   border-radius: var(--radius-xs);
   background: transparent;
   transition: background-color var(--time-fast) var(--ease-out);
@@ -204,15 +24,16 @@
   background-color: var(--bg-selected);
 }
 
+/* Квадратный чекбокс */
 .checkbox-ui {
-  width: 17px;
-  height: 17px;
+  width: 18px;
+  height: 18px;
   border: 1px solid rgba(28, 24, 21, 0.35);
   border-radius: var(--radius-xs);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 12px;
+  margin-right: 14px;
   flex-shrink: 0;
   background: #FFFFFF;
   pointer-events: none;
@@ -230,8 +51,8 @@
 }
 
 .check-mark {
-  width: 11px;
-  height: 11px;
+  width: 12px;
+  height: 12px;
   stroke: #FFFFFF;
   stroke-width: 2.4;
   fill: none;
@@ -247,20 +68,21 @@
 
 .service-name {
   flex: 1;
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   font-weight: 500;
   color: var(--text-primary);
-  padding-right: 14px;
+  padding-right: 16px;
   letter-spacing: -0.01em;
   pointer-events: none;
 }
 
 .service-row.is-selected .service-name {
+  color: var(--text-primary);
   font-weight: 600;
 }
 
 .service-price {
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   font-weight: 500;
   color: var(--text-primary);
   font-variant-numeric: tabular-nums;
@@ -273,14 +95,8 @@
   font-weight: 600;
 }
 
-@media (max-width: 768px) {
-  .price-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* ==========================================================================
-   4. Нижний бар (Dock Bar)
+   2. Фиксированный нижний бар (Dock Bar)
    ========================================================================== */
 .dock-bar {
   position: fixed;
@@ -289,10 +105,10 @@
   width: 100%;
   height: var(--dock-height);
   background: var(--bg-glass);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
   border-top: 1px solid var(--hairline-glass-top);
-  box-shadow: 0 -8px 24px rgba(28, 24, 21, 0.06);
+  box-shadow: 0 -8px 30px rgba(28, 24, 21, 0.08);
   z-index: var(--z-sticky);
   display: flex;
   align-items: center;
@@ -303,13 +119,15 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: var(--site-width);
-  margin: 0 auto;
-  padding: 0 20px;
+}
+
+.dock-summary {
+  display: flex;
+  flex-direction: column;
 }
 
 .dock-meta {
-  font-size: 0.9375rem;
+  font-size: 0.95rem;
   font-weight: 500;
   color: var(--text-primary);
   font-variant-numeric: tabular-nums;
@@ -319,17 +137,17 @@
 .btn-max-cta {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   background-color: var(--accent-terra);
   color: #FFFFFF;
-  height: 40px;
-  padding: 0 18px;
+  height: 44px;
+  padding: 0 20px;
   border-radius: var(--radius-sm);
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   font-weight: 500;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(178, 76, 47, 0.22);
+  box-shadow: 0 4px 14px rgba(178, 76, 47, 0.25);
   transition: background-color var(--time-fast) var(--ease-out),
               transform var(--time-fast) var(--ease-out);
 }
@@ -343,35 +161,30 @@
 }
 
 .max-icon-embed {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border-radius: 4px;
   object-fit: cover;
   flex-shrink: 0;
 }
 
 /* ==========================================================================
-   5. Блок контактов
+   3. Блок контактов и адреса
    ========================================================================== */
-.contacts-section {
-  max-width: var(--site-width);
-  margin: 0 auto;
-  padding: 0 20px 40px;
-}
-
 .contacts-card {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   background: var(--bg-surface-elevated);
   border: 1px solid var(--hairline);
-  padding: 22px 24px;
+  padding: 24px;
   border-radius: var(--radius-sm);
-  margin-top: 14px;
+  margin-top: 16px;
+  margin-bottom: 32px;
 }
 
 .contacts-label {
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--accent-terra);
@@ -380,27 +193,20 @@
 }
 
 .contacts-val {
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   font-weight: 500;
   color: var(--text-primary);
 }
 
 .contacts-sub {
-  font-size: 0.78rem;
+  font-size: 0.8125rem;
   color: var(--text-secondary);
   margin-top: 4px;
   line-height: 1.4;
 }
 
-@media (max-width: 768px) {
-  .contacts-card {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-}
-
 /* ==========================================================================
-   6. Модальное окно и Лайтбокс
+   4. Модальное окно записи
    ========================================================================== */
 .order-modal-backdrop {
   position: fixed;
@@ -428,9 +234,9 @@
   background: var(--bg-canvas);
   border: 1px solid var(--hairline);
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   border-radius: var(--radius-sm);
-  padding: 22px;
+  padding: 24px;
   position: relative;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.16);
 }
@@ -439,7 +245,7 @@
   position: absolute;
   top: 14px;
   right: 14px;
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   color: var(--text-secondary);
   width: 28px;
   height: 28px;
@@ -454,39 +260,68 @@
 
 .order-modal-title {
   font-family: var(--font-serif);
-  font-size: 1.3rem;
+  font-size: 1.375rem;
   font-weight: 400;
   color: var(--text-primary);
 }
 
 .order-modal-sub {
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
   color: var(--text-secondary);
   margin-top: 4px;
 }
 
 .order-services-preview {
-  margin: 14px 0;
-  padding: 10px 12px;
+  margin: 16px 0;
+  padding: 12px;
   background: var(--bg-surface-elevated);
   border-radius: var(--radius-xs);
   border: 1px solid var(--hairline);
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-primary);
   line-height: 1.4;
 }
 
+.order-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.order-field-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.order-input {
+  border: 1px solid var(--hairline);
+  background: #FFFFFF;
+  padding: 10px 12px;
+  border-radius: var(--radius-xs);
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  font-family: inherit;
+}
+
+.order-input:focus {
+  outline: 2px solid var(--accent-terra);
+}
+
 .order-submit-btn {
   width: 100%;
   margin-top: 8px;
-  height: 42px;
+  height: 44px;
   background: var(--accent-terra);
   color: #FFFFFF;
   border: none;
   border-radius: var(--radius-xs);
   font-weight: 500;
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -496,6 +331,32 @@
 
 .order-submit-btn:hover {
   background-color: var(--accent-terra-hover);
+}
+
+/* ==========================================================================
+   5. Лайтбокс и уведомление
+   ========================================================================== */
+.toast-notice {
+  position: fixed;
+  bottom: calc(var(--dock-height) + 16px);
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background-color: #1C1815;
+  color: #FAF7F2;
+  font-size: 0.8125rem;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  opacity: 0;
+  pointer-events: none !important;
+  z-index: var(--z-toast);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  transition: opacity var(--time-normal) var(--ease-out),
+              transform var(--time-normal) var(--ease-out);
+}
+
+.toast-notice.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 .lightbox-backdrop {
@@ -536,7 +397,7 @@
 
 .lightbox-btn-close {
   position: absolute;
-  top: -38px;
+  top: -42px;
   right: 0;
   color: #FFFFFF;
   width: 32px;
