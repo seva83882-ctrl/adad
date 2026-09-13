@@ -1,0 +1,44 @@
+﻿:root {
+  /* Базовый тёплый холст */
+  --bg-canvas: #F5EFE6;
+  --bg-surface: #EDE5D8;
+  --bg-surface-elevated: #F9F6F0;
+  --bg-hover: rgba(178, 76, 47, 0.04);
+  --bg-selected: rgba(178, 76, 47, 0.08);
+  --bg-glass: rgba(245, 239, 230, 0.85);
+
+  /* Текст */
+  --text-primary: #1C1815;
+  --text-secondary: #706860;
+  --text-muted: #9E948A;
+
+  /* Акценты */
+  --accent-terra: #B24C2F;
+  --accent-terra-hover: #9E3E23;
+
+  /* Тонкие линии */
+  --hairline: rgba(28, 24, 21, 0.10);
+  --hairline-glass-top: rgba(255, 255, 255, 0.4);
+
+  /* Радиусы */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+
+  /* Размеры */
+  --nav-height: 56px;
+  --dock-height: 64px;
+  --site-width: 1040px;
+
+  /* Шрифты */
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --z-sticky: 40;
+  --z-modal: 100;
+  --z-toast: 110;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --time-fast: 0.15s;
+  --time-normal: 0.3s;
+}

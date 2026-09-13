@@ -1,0 +1,422 @@
+/* ==========================================================================
+   1. Строки прайс-листа (Калькулятор)
+   ========================================================================== */
+.service-row {
+  display: flex;
+  align-items: center;
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--hairline);
+  cursor: pointer !important;
+  user-select: none;
+  min-height: 54px;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  transition: background-color var(--time-fast) var(--ease-out);
+  position: relative;
+  z-index: 10;
+}
+
+.service-row:hover {
+  background-color: var(--bg-hover);
+}
+
+.service-row.is-selected {
+  background-color: var(--bg-selected);
+}
+
+/* Квадратный чекбокс */
+.checkbox-ui {
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(28, 24, 21, 0.4);
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 14px;
+  flex-shrink: 0;
+  background: #FFFFFF;
+  pointer-events: none;
+  transition: background-color var(--time-fast) var(--ease-out),
+              border-color var(--time-fast) var(--ease-out);
+}
+
+.service-row:hover .checkbox-ui {
+  border-color: var(--accent-terra);
+}
+
+.service-row.is-selected .checkbox-ui {
+  background-color: var(--accent-terra);
+  border-color: var(--accent-terra);
+}
+
+.check-mark {
+  width: 12px;
+  height: 12px;
+  stroke: #FFFFFF;
+  stroke-width: 2.4;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.service-row.is-selected .check-mark {
+  opacity: 1;
+}
+
+/* Название услуги: спокойный вес, без перегруза */
+.service-name {
+  flex: 1;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  padding-right: 16px;
+  letter-spacing: -0.01em;
+  pointer-events: none;
+}
+
+.service-row.is-selected .service-name {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Цена */
+.service-price {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.service-row.is-selected .service-price {
+  color: var(--accent-terra);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   2. Фиксированный нижний бар (Dock Bar)
+   ========================================================================== */
+.dock-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: var(--dock-height);
+  background: var(--bg-glass);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border-top: 1px solid var(--hairline-glass-top);
+  box-shadow: 0 -8px 30px rgba(28, 24, 21, 0.08);
+  z-index: var(--z-sticky);
+  display: flex;
+  align-items: center;
+}
+
+.dock-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.dock-summary {
+  display: flex;
+  flex-direction: column;
+}
+
+.dock-meta {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* Кнопка записи в MAX */
+.btn-max-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--accent-terra);
+  color: #FFFFFF;
+  height: 44px;
+  padding: 0 20px;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(178, 76, 47, 0.25);
+  transition: background-color var(--time-fast) var(--ease-out),
+              transform var(--time-fast) var(--ease-out);
+}
+
+.btn-max-cta:hover {
+  background-color: var(--accent-terra-hover);
+}
+
+.btn-max-cta:active {
+  transform: scale(0.98);
+}
+
+.max-icon-embed {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   3. Блок контактов и адреса
+   ========================================================================== */
+.contacts-card {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--hairline);
+  padding: 24px;
+  border-radius: var(--radius-sm);
+  margin-top: 16px;
+  margin-bottom: 32px;
+}
+
+.contacts-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-terra);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.contacts-val {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.contacts-sub {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .contacts-card {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+/* ==========================================================================
+   4. Модальное окно записи перед переходом в чат
+   ========================================================================== */
+.order-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(24, 21, 18, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--time-fast) var(--ease-out),
+              visibility var(--time-fast) var(--ease-out);
+}
+
+.order-modal-backdrop.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.order-modal-box {
+  background: var(--bg-canvas);
+  border: 1px solid var(--hairline);
+  width: 100%;
+  max-width: 420px;
+  border-radius: var(--radius-sm);
+  padding: 24px;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.16);
+}
+
+.order-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(28, 24, 21, 0.05);
+  border: none;
+  cursor: pointer;
+}
+
+.order-modal-title {
+  font-family: var(--font-serif);
+  font-size: 1.375rem;
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+.order-modal-sub {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.order-services-preview {
+  margin: 16px 0;
+  padding: 12px;
+  background: var(--bg-surface-elevated);
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--hairline);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.order-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.order-field-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.order-input {
+  border: 1px solid var(--hairline);
+  background: #FFFFFF;
+  padding: 10px 12px;
+  border-radius: var(--radius-xs);
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  font-family: inherit;
+}
+
+.order-input:focus {
+  outline: 2px solid var(--accent-terra);
+}
+
+.order-submit-btn {
+  width: 100%;
+  margin-top: 8px;
+  height: 44px;
+  background: var(--accent-terra);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-xs);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--time-fast) var(--ease-out);
+}
+
+.order-submit-btn:hover {
+  background-color: var(--accent-terra-hover);
+}
+
+/* ==========================================================================
+   5. Лайтбокс и уведомление
+   ========================================================================== */
+.toast-notice {
+  position: fixed;
+  bottom: calc(var(--dock-height) + 16px);
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background-color: #1C1815;
+  color: #FAF7F2;
+  font-size: 0.8125rem;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  opacity: 0;
+  pointer-events: none !important;
+  z-index: var(--z-toast);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  transition: opacity var(--time-normal) var(--ease-out),
+              transform var(--time-normal) var(--ease-out);
+}
+
+.toast-notice.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.lightbox-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(24, 21, 18, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--time-normal) var(--ease-out),
+              visibility var(--time-normal) var(--ease-out);
+  padding: 24px;
+}
+
+.lightbox-backdrop.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox-dialog {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90dvh;
+}
+
+.lightbox-target {
+  max-width: 100%;
+  max-height: 90dvh;
+  object-fit: contain;
+  border-radius: var(--radius-xs);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.4);
+}
+
+.lightbox-btn-close {
+  position: absolute;
+  top: -42px;
+  right: 0;
+  color: #FFFFFF;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  border: none;
+  cursor: pointer;
+}

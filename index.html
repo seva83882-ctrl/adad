@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VALENTINA · NAILS | Студия ногтевого сервиса</title>
+  
+  <link rel="stylesheet" href="src/styles/variables.css">
+  <link rel="stylesheet" href="src/styles/base.css">
+  <link rel="stylesheet" href="src/styles/layout.css">
+  <link rel="stylesheet" href="src/styles/components.css">
+  <link rel="icon" href="public/favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+
+  <div class="grain-overlay" aria-hidden="true"></div>
+  <div class="ambient-halo-top" aria-hidden="true"></div>
+  <div class="ambient-halo-mid" aria-hidden="true"></div>
+
+  <header class="header-nav">
+    <div class="site-shell header-inner">
+      <div class="brand-logo">VALENTINA · NAILS</div>
+      <nav class="nav-links">
+        <a href="#services" class="nav-item">Услуги</a>
+        <a href="#portfolio" class="nav-item">Работы</a>
+        <a href="#contacts" class="nav-item">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-shell">
+
+    <!-- Hero -->
+    <section class="hero-section" id="hero">
+      <div class="hero-text-col">
+        <h1 class="hero-headline" id="hero-title">
+          <span class="hero-line">Эстетика чистоты</span>
+          <span class="hero-line">и безупречной</span>
+          <span class="hero-line">формы.</span>
+        </h1>
+        <p class="hero-subline" id="hero-sub">
+          Студия ногтевого сервиса Валентины. Маникюр, педикюр и уход за ногтями.
+        </p>
+      </div>
+
+      <div class="hero-media-col" id="hero-media">
+        <div class="hero-image-frame">
+          <img src="public/img/master.webp" alt="Валентина — мастер ногтевого сервиса" class="hero-img">
+        </div>
+      </div>
+    </section>
+
+    <!-- Прайс -->
+    <section class="section-divider" id="services">
+      <div class="section-header">
+        <h2 class="section-tag">Прайс-лист</h2>
+        <span class="section-caption">Выберите услуги для расчета</span>
+      </div>
+
+      <div class="price-grid">
+        <div class="price-col">
+          <div class="category-block">
+            <h3 class="category-title">МАНИКЮР</h3>
+            
+            <div class="service-row" data-id="man-reinforce" data-name="Маникюр с укреплением" data-price="2000">
+              <div class="checkbox-ui"><svg class="check-mark" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+              <span class="service-name">Маникюр с укреплением</span>
+              <span class="service-price">2 000 руб</span>
+            </div>
+
+            <div class="service-row" data-id="man-cover" data-name="Маникюр с покрытием" data-price="1800">
+              <div class="checkbox-ui"><svg class="check-mark" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+              <span class="service-name">Маникюр с покрытием</span>
+              <span class="service-price">1 800 руб</span>
+            </div>
+
+            <div class="service-row" data-id="man-airbrush" data-name="Аэрография" data-price="1500">
+              <div class="checkbox-ui"><svg class="check-mark" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+              <span class="service-name">Аэрография</span>
+              <span class="service-price">1 500 руб</span>
+            </div>
+          </div>
+
+          <div class="category-block">
+            <h3 class="category-title">ПАРАФИНОТЕРАПИЯ</h3>
+
+            <div class="service-row" data-id="paraffin-hands" data-name="Парафиновая ванна для рук" data-price="300">
+              <div class="checkbox-ui"><svg class="check-mark" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+              <span class="service-name">Парафиновая ванна для рук</span>
+              <span class="service-price">300 руб</span>
+            </div>
+
+            <div class="service-row" data-id="paraffin-feet" data-name="Парафиновая ванна для ног" data-price="500">
+              <div class="checkbox-ui"><svg class="check-mark" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+              <span class="service-name">Парафиновая ванна для ног</span>
+              <span class="service-price">500 руб</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="price-col">
+          <div class="category-block">
+            <h3 class="category-title">НАРАЩИВАНИЕ</h3>
+
+            <div class="service-row" data-id="ext-base" data-name="Наращивание" data-price="2500">
+              <div class="checkbox-ui"><svg class="check-mark" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+              <span class="service-name">Наращивание</span>
+              <span class="service-price">от 2 500 руб</span>
+            </div>
+
+            <div class="service-row" data-id="ext-correction" data-name="Коррекция" data-price="2000">
+              <div class="checkbox-ui"><svg class="check-mark" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+              <span class="service-name">Коррекция</span>
+              <span class="service-price">2 000 руб</span>
+            </div>
+          </div>
+
+          <div class="category-block">
+            <h3 class="category-title">ПЕДИКЮР</h3>
+
+            <div class="service-row" data-id="ped-hygiene" data-name="Педикюр гигиенический" data-price="2000">
+              <div class="checkbox-ui"><svg class="check-mark" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+              <span class="service-name">Педикюр гигиенический</span>
+              <span class="service-price">2 000 руб</span>
+            </div>
+
+            <div class="service-row" data-id="ped-cover" data-name="Педикюр с покрытием" data-price="2500">
+              <div class="checkbox-ui"><svg class="check-mark" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+              <span class="service-name">Педикюр с покрытием</span>
+              <span class="service-price">2 500 руб</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Портфолио -->
+    <section class="section-divider" id="portfolio">
+      <div class="section-header">
+        <h2 class="section-tag">Портфолио</h2>
+        <span class="section-caption">Все работы кликабельны</span>
+      </div>
+
+      <div class="portfolio-strip">
+        <div class="gallery-cell">
+          <img src="public/img/work-coffee.webp" alt="Маникюр" class="gallery-img">
+        </div>
+        <div class="gallery-cell">
+          <img src="public/img/work-silver.webp" alt="Маникюр" class="gallery-img">
+        </div>
+        <div class="gallery-cell">
+          <img src="public/img/work-gradient.webp" alt="Маникюр" class="gallery-img">
+        </div>
+        <div class="gallery-cell">
+          <img src="public/img/work-autumn.webp" alt="Маникюр" class="gallery-img">
+        </div>
+        <div class="gallery-cell">
+          <img src="public/img/work-glitter.webp" alt="Маникюр" class="gallery-img">
+        </div>
+      </div>
+    </section>
+
+    <!-- Контакты -->
+    <section class="section-divider" id="contacts">
+      <div class="section-header">
+        <h2 class="section-tag">Контакты</h2>
+        <span class="section-caption">Запись и вопросы</span>
+      </div>
+
+      <div class="contacts-card">
+        <div class="contacts-item">
+          <div class="contacts-label">Адрес</div>
+          <div class="contacts-val">Адрес студии уточняется</div>
+          <div class="contacts-sub">Точный адрес мастер отправит при записи</div>
+        </div>
+        <div class="contacts-item">
+          <div class="contacts-label">Время работы</div>
+          <div class="contacts-val">По записи</div>
+          <div class="contacts-sub">Подберем удобный день и время</div>
+        </div>
+        <div class="contacts-item">
+          <div class="contacts-label">Запись онлайн</div>
+          <div class="contacts-val">В чате MAX</div>
+          <div class="contacts-sub">Быстрый ответ в сообщениях</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Нижняя панель -->
+  <aside class="dock-bar" id="dock-bar">
+    <div class="site-shell dock-inner">
+      <div class="dock-summary">
+        <span class="dock-meta" id="dock-counter">0 услуг · 0 ₽</span>
+      </div>
+      <button type="button" class="btn-max-cta" id="open-order-btn">
+        <span>Записаться в MAX</span>
+        <img src="public/img/max-icon.jpg" alt="MAX" class="max-icon-embed">
+      </button>
+    </div>
+  </aside>
+
+  <!-- Окно записи -->
+  <div class="order-modal-backdrop" id="order-modal" role="dialog" aria-hidden="true">
+    <div class="order-modal-box">
+      <button class="order-modal-close" id="order-modal-close" aria-label="Закрыть">✕</button>
+      <div class="order-modal-title">Запись к мастеру</div>
+      <div class="order-modal-sub">Укажите имя и желаемое время</div>
+
+      <div class="order-services-preview" id="order-services-preview">
+        Услуги не выбраны
+      </div>
+
+      <form id="order-form" class="order-form">
+        <label class="order-field">
+          <span class="order-field-label">Ваше имя</span>
+          <input type="text" id="client-name" class="order-input" placeholder="Как вас зовут?" required>
+        </label>
+
+        <label class="order-field">
+          <span class="order-field-label">Удобный день или время</span>
+          <input type="text" id="client-time" class="order-input" placeholder="Например, завтра в 14:00">
+        </label>
+
+        <button type="submit" class="order-submit-btn">
+          <span>Написать в MAX</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast-notice" id="toast-msg">Заказ скопирован</div>
+
+  <!-- Лайтбокс -->
+  <div class="lightbox-backdrop" id="lightbox-modal" role="dialog" aria-hidden="true">
+    <div class="lightbox-dialog">
+      <button class="lightbox-btn-close" id="lightbox-close" aria-label="Закрыть">✕</button>
+      <img src="" alt="Увеличенное фото работы" class="lightbox-target" id="lightbox-img">
+    </div>
+  </div>
+
+  <script src="src/scripts/app.js"></script>
+</body>
+</html>
