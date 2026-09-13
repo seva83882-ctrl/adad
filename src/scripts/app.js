@@ -1,40 +1,4 @@
-class MotionEngine {
-  constructor() {
-    this.initObservers();
-  }
-
-  initObservers() {
-    const observerOptions = {
-      root: null,
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    const animatedElements = document.querySelectorAll(
-      '.hero, .facts, .price-section, .gallery-section, .contact-section, .service-row, .bento__cell'
-    );
-
-    animatedElements.forEach((el) => observer.observe(el));
-
-    const services = document.getElementById('services') || document.getElementById('price');
-    if (services) {
-      observer.observe(services);
-    }
-  }
-}
-
 document.addEventListener('DOMContentLoaded', () => {
-  new MotionEngine();
-
   const MAX_PROFILE_URL = 'https://max.ru/u/f9LHodD0cOKqoPsd_Nw4LzKoPxXF-Y3RIXTB4YAE0KlUggtgNmnXoHqGal0';
   const selectedServices = [];
 
@@ -42,107 +6,135 @@ document.addEventListener('DOMContentLoaded', () => {
   const navMenu = document.getElementById('nav-menu');
 
   if (burgerBtn && navMenu) {
-    burgerBtn.addEventListener('click', () => {
-      burgerBtn.classList.toggle('is-active');
+    burgerBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isActive = burgerBtn.classList.toggle('is-active');
       navMenu.classList.toggle('is-active');
+      document.body.style.overflow = isActive ? 'hidden' : '';
     });
 
     navMenu.querySelectorAll('.nav-link').forEach((link) => {
       link.addEventListener('click', () => {
         burgerBtn.classList.remove('is-active');
         navMenu.classList.remove('is-active');
+        document.body.style.overflow = '';
       });
     });
   }
 
-  const header = document.getElementById('nav') || document.getElementById('header');
-  const dock = document.getElementById('dock') || document.getElementById('dock-bar');
-  const dockCounter = document.getElementById('dock-counter') || document.getElementById('dock-calc');
-  const openOrderBtn = document.getElementById('dock-btn-order') || document.getElementById('btn-open-modal') || document.getElementById('open-order-btn');
+  const dockCounter = document.getElementById('dock-counter');
+  const openOrderBtn = document.getElementById('dock-btn-order');
 
-  const modal = document.getElementById('order-modal') || document.getElementById('modal-overlay');
-  const modalCloseBtn = document.getElementById('modal-close') || document.getElementById('btn-close-modal');
-  const modalList = document.getElementById('modal-list') || document.getElementById('modal-services-list');
-  const modalTotal = document.getElementById('modal-total-val') || document.getElementById('modal-total');
-  const btnSubmitMax = document.getElementById('btn-submit-max') || document.getElementById('btn-send-max');
+  const modal = document.getElementById('order-modal');
+  const modalBackdrop = document.getElementById('modal-backdrop');
+  const modalCloseBtn = document.getElementById('modal-close');
+  const modalList = document.getElementById('modal-list');
+  const modalTotal = document.getElementById('modal-total-val');
+  const btnSubmitMax = document.getElementById('btn-submit-max');
+  const modalSubmitText = document.getElementById('modal-submit-text');
 
-  const lightbox = document.getElementById('lightbox') || document.getElementById('lightbox-modal');
-  const lightboxImg = document.getElementById('lightbox-img');
-
-  window.addEventListener('scroll', () => {
-    if (!header) return;
-    if (window.scrollY > 20) {
-      header.classList.add('is-scrolled');
-    } else {
-      header.classList.remove('is-scrolled');
-    }
-  }, { passive: true });
-
-  const priceHeaders = document.querySelectorAll('.price-group__header, .price__header');
-  priceHeaders.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const group = btn.closest('.price-group, .price__group');
-      if (group) {
-        group.classList.toggle('is-open');
-        group.classList.toggle('collapsed');
-      }
-    });
-  });
-
-  const serviceRows = document.querySelectorAll('.service-row, .service-item-row');
+  const serviceRows = document.querySelectorAll('.service-row');
   serviceRows.forEach((row) => {
     row.addEventListener('click', () => {
       const id = row.dataset.id;
-      const name = row.dataset.name || row.querySelector('.service-name, .service-title-text')?.textContent?.trim();
+      const name = row.dataset.name;
       const price = parseInt(row.dataset.price, 10);
 
       if (!id || isNaN(price)) return;
 
-      const existingIndex = selectedServices.findIndex((item) => item.id === id);
+      const idx = selectedServices.findIndex((item) => item.id === id);
 
-      if (existingIndex > -1) {
-        selectedServices.splice(existingIndex, 1);
-        row.classList.remove('is-selected', 'is-checked');
+      if (idx > -1) {
+        selectedServices.splice(idx, 1);
+        row.classList.remove('is-selected');
       } else {
         selectedServices.push({ id, name, price });
-        row.classList.add('is-selected', 'is-checked');
+        row.classList.add('is-selected');
       }
 
-      updateDock();
+      updateDockUI();
     });
   });
 
-  function updateDock() {
+  function updateDockUI() {
     if (!dockCounter) return;
     const count = selectedServices.length;
     const total = selectedServices.reduce((sum, item) => sum + item.price, 0);
     dockCounter.textContent = `${count} услуг · ${total.toLocaleString('ru-RU')} ₽`;
   }
 
-  function redirectToMax() {
-    let message = 'Здравствуйте, Валентина! Хочу записаться к вам на маникюр.';
-
+  function generateMessage() {
+    let text = 'Здравствуйте, Валентина! Хочу записаться к вам на маникюр.';
     if (selectedServices.length > 0) {
       const list = selectedServices.map((s) => `• ${s.name} (${s.price} ₽)`).join('\n');
-      const total = selectedServices.reduce((sum, item) => sum + item.price, 0);
-      message += `\n\nВыбранные услуги:\n${list}\n\nПримерная стоимость: ${total} ₽`;
+      const total = selectedServices.reduce((sum, s) => sum + s.price, 0);
+      text += `\n\nВыбранные услуги:\n${list}\n\nПримерная стоимость: ${total} ₽`;
     }
-
-    const finalUrl = `${MAX_PROFILE_URL}?message=${encodeURIComponent(message)}&text=${encodeURIComponent(message)}`;
-    window.location.href = finalUrl;
+    return text;
   }
 
-  function renderModal() {
+  async function copyOrderAndGoToMax() {
+    const textToCopy = generateMessage();
+
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(textToCopy);
+      } else {
+        const textArea = document.createElement('textarea');
+        textArea.value = textToCopy;
+        textArea.style.position = 'fixed';
+        textArea.style.opacity = '0';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+      }
+    } catch (err) {
+      console.warn('Не удалось автоматически скопировать текст', err);
+    }
+
+    if (modalSubmitText) {
+      modalSubmitText.textContent = 'Скопировано! Открываем MAX...';
+    }
+
+    setTimeout(() => {
+      window.location.href = MAX_PROFILE_URL;
+    }, 400);
+  }
+
+  function openOrderModal() {
+    if (!modal) {
+      copyOrderAndGoToMax();
+      return;
+    }
+
+    if (modalSubmitText) {
+      modalSubmitText.textContent = 'Скопировать заказ и перейти в MAX';
+    }
+
+    renderModalItems();
+    modal.removeAttribute('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeOrderModal() {
+    if (!modal) return;
+    modal.setAttribute('hidden', '');
+    document.body.style.overflow = '';
+  }
+
+  function renderModalItems() {
     if (!modalList || !modalTotal) return;
 
     if (selectedServices.length === 0) {
-      modalList.innerHTML = '<p style="color: #8E8E9A; font-size: 0.95rem; padding: 12px 0;">Услуги не выбраны. Вы можете перейти в чат для прямой консультации.</p>';
+      modalList.innerHTML = '<p style="color:#777785; padding:16px 0; font-size:0.95rem;">Вы не выбрали ни одной услуги. Нажмите кнопку ниже, чтобы открыть чат с мастером.</p>';
       modalTotal.textContent = '0 ₽';
       return;
     }
 
     modalList.innerHTML = selectedServices.map((item) => `
-      <div class="modal__item" style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #EBEBF0;">
+      <div class="modal__item">
         <span>${item.name}</span>
         <b>${item.price.toLocaleString('ru-RU')} ₽</b>
       </div>
@@ -152,44 +144,47 @@ document.addEventListener('DOMContentLoaded', () => {
     modalTotal.textContent = `${total.toLocaleString('ru-RU')} ₽`;
   }
 
-  function closeModal() {
-    if (!modal) return;
-    modal.setAttribute('hidden', '');
-    modal.classList.remove('is-open', 'is-active', 'open');
-  }
-
   if (openOrderBtn) {
-    openOrderBtn.addEventListener('click', () => {
-      if (modal) {
-        renderModal();
-        modal.removeAttribute('hidden');
-        modal.classList.add('is-open', 'is-active', 'open');
-      } else {
-        redirectToMax();
-      }
+    openOrderBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openOrderModal();
     });
   }
 
-  if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
-
-  if (modal) {
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
+  if (modalCloseBtn) {
+    modalCloseBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeOrderModal();
     });
+    modalCloseBtn.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeOrderModal();
+    });
+  }
+
+  if (modalBackdrop) {
+    modalBackdrop.addEventListener('click', closeOrderModal);
   }
 
   if (btnSubmitMax) {
-    btnSubmitMax.addEventListener('click', redirectToMax);
+    btnSubmitMax.addEventListener('click', (e) => {
+      e.preventDefault();
+      copyOrderAndGoToMax();
+    });
   }
 
-  const galleryCells = document.querySelectorAll('.bento__cell, .bento-cell, .bento-tile');
-  galleryCells.forEach((cell) => {
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const bentoCells = document.querySelectorAll('.bento__cell');
+
+  bentoCells.forEach((cell) => {
     cell.addEventListener('click', () => {
-      const src = cell.dataset.src || cell.querySelector('img')?.getAttribute('src');
+      const src = cell.dataset.src;
       if (lightbox && lightboxImg && src) {
         lightboxImg.src = src;
         lightbox.removeAttribute('hidden');
-        lightbox.classList.add('is-open', 'is-active', 'open');
       }
     });
   });
@@ -197,16 +192,17 @@ document.addEventListener('DOMContentLoaded', () => {
   if (lightbox) {
     lightbox.addEventListener('click', () => {
       lightbox.setAttribute('hidden', '');
-      lightbox.classList.remove('is-open', 'is-active', 'open');
     });
   }
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      closeModal();
-      if (lightbox) {
-        lightbox.setAttribute('hidden', '');
-        lightbox.classList.remove('is-open', 'is-active', 'open');
+      closeOrderModal();
+      if (lightbox) lightbox.setAttribute('hidden', '');
+      if (burgerBtn && navMenu) {
+        burgerBtn.classList.remove('is-active');
+        navMenu.classList.remove('is-active');
+        document.body.style.overflow = '';
       }
     }
   });
