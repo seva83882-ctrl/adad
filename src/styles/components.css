@@ -1,14 +1,181 @@
 /* ==========================================================================
-   1. Строки прайс-листа (Калькулятор)
+   1. Блок Hero (Главный экран)
    ========================================================================== */
+.hero {
+  max-width: var(--site-width);
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: center;
+  gap: 40px;
+}
+
+.hero__title {
+  font-family: var(--font-serif);
+  font-size: 2.85rem;
+  font-weight: 400;
+  line-height: 1.16;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+
+.hero__desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  max-width: 440px;
+}
+
+/* Компактная карточка мастера 3:4 */
+.hero__media {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hero__photo-card {
+  width: 100%;
+  max-width: 310px;          /* Ограниченная ширина */
+  aspect-ratio: 3 / 4;       /* Строго пропорции 3:4 */
+  border-radius: var(--radius-hero);
+  overflow: hidden;
+  box-shadow: 0 16px 36px rgba(28, 24, 21, 0.08);
+  background: var(--bg-surface);
+}
+
+.hero__photo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 15%; /* Точный фокус на лице мастера */
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-top: 20px;
+  }
+  .hero__media {
+    justify-content: center;
+  }
+  .hero__title {
+    font-size: 2.2rem;
+  }
+}
+
+/* ==========================================================================
+   2. Портфолио (Сетка в 3 колонки со скриншота)
+   ========================================================================== */
+.section-header {
+  max-width: var(--site-width);
+  margin: 0 auto 16px;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.section-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  color: var(--accent-terra);
+}
+
+.section-note {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.portfolio-container {
+  max-width: var(--site-width);
+  margin: 0 auto 56px;
+  padding: 0 20px;
+}
+
+.bento {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 215px 215px;
+  gap: 14px;
+}
+
+.bento__cell {
+  position: relative;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--bg-surface);
+  cursor: pointer;
+}
+
+.bento__cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--time-normal) var(--ease-out);
+}
+
+.bento__cell:hover img {
+  transform: scale(1.03);
+}
+
+/* Первое фото (с кофе) занимает 2 строки слева */
+.bento__cell:first-child {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .bento {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+  }
+  .bento__cell:first-child {
+    grid-column: 1 / span 2;
+    aspect-ratio: 4 / 3;
+    height: auto;
+  }
+}
+
+/* ==========================================================================
+   3. Строки прайс-листа (Калькулятор)
+   ========================================================================== */
+.price-container {
+  max-width: var(--site-width);
+  margin: 0 auto 56px;
+  padding: 0 20px;
+}
+
+.price-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 40px;
+  row-gap: 24px;
+}
+
+.price-group-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  color: var(--accent-terra);
+  margin-bottom: 8px;
+}
+
 .service-row {
   display: flex;
   align-items: center;
-  padding: 14px 12px;
+  padding: 10px 8px;
   border-bottom: 1px solid var(--hairline);
   cursor: pointer !important;
   user-select: none;
-  min-height: 54px;
+  min-height: 46px;
   border-radius: var(--radius-xs);
   background: transparent;
   transition: background-color var(--time-fast) var(--ease-out);
@@ -24,16 +191,15 @@
   background-color: var(--bg-selected);
 }
 
-/* Квадратный чекбокс */
 .checkbox-ui {
-  width: 18px;
-  height: 18px;
-  border: 1px solid rgba(28, 24, 21, 0.4);
+  width: 17px;
+  height: 17px;
+  border: 1px solid rgba(28, 24, 21, 0.35);
   border-radius: var(--radius-xs);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 14px;
+  margin-right: 12px;
   flex-shrink: 0;
   background: #FFFFFF;
   pointer-events: none;
@@ -51,8 +217,8 @@
 }
 
 .check-mark {
-  width: 12px;
-  height: 12px;
+  width: 11px;
+  height: 11px;
   stroke: #FFFFFF;
   stroke-width: 2.4;
   fill: none;
@@ -66,25 +232,22 @@
   opacity: 1;
 }
 
-/* Название услуги: спокойный вес, без перегруза */
 .service-name {
   flex: 1;
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-primary);
-  padding-right: 16px;
+  padding-right: 14px;
   letter-spacing: -0.01em;
   pointer-events: none;
 }
 
 .service-row.is-selected .service-name {
-  color: var(--text-primary);
   font-weight: 600;
 }
 
-/* Цена */
 .service-price {
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-primary);
   font-variant-numeric: tabular-nums;
@@ -97,8 +260,14 @@
   font-weight: 600;
 }
 
+@media (max-width: 768px) {
+  .price-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ==========================================================================
-   2. Фиксированный нижний бар (Dock Bar)
+   4. Нижний бар (Dock Bar)
    ========================================================================== */
 .dock-bar {
   position: fixed;
@@ -107,10 +276,10 @@
   width: 100%;
   height: var(--dock-height);
   background: var(--bg-glass);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
   border-top: 1px solid var(--hairline-glass-top);
-  box-shadow: 0 -8px 30px rgba(28, 24, 21, 0.08);
+  box-shadow: 0 -8px 24px rgba(28, 24, 21, 0.06);
   z-index: var(--z-sticky);
   display: flex;
   align-items: center;
@@ -121,36 +290,33 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-}
-
-.dock-summary {
-  display: flex;
-  flex-direction: column;
+  max-width: var(--site-width);
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .dock-meta {
-  font-size: 1rem;
+  font-size: 0.9375rem;
   font-weight: 500;
   color: var(--text-primary);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
 }
 
-/* Кнопка записи в MAX */
 .btn-max-cta {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   background-color: var(--accent-terra);
   color: #FFFFFF;
-  height: 44px;
-  padding: 0 20px;
+  height: 40px;
+  padding: 0 18px;
   border-radius: var(--radius-sm);
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 500;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(178, 76, 47, 0.25);
+  box-shadow: 0 4px 12px rgba(178, 76, 47, 0.22);
   transition: background-color var(--time-fast) var(--ease-out),
               transform var(--time-fast) var(--ease-out);
 }
@@ -164,30 +330,35 @@
 }
 
 .max-icon-embed {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-radius: 4px;
   object-fit: cover;
   flex-shrink: 0;
 }
 
 /* ==========================================================================
-   3. Блок контактов и адреса
+   5. Блок контактов
    ========================================================================== */
+.contacts-section {
+  max-width: var(--site-width);
+  margin: 0 auto;
+  padding: 0 20px 40px;
+}
+
 .contacts-card {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   background: var(--bg-surface-elevated);
   border: 1px solid var(--hairline);
-  padding: 24px;
+  padding: 22px 24px;
   border-radius: var(--radius-sm);
-  margin-top: 16px;
-  margin-bottom: 32px;
+  margin-top: 14px;
 }
 
 .contacts-label {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--accent-terra);
@@ -196,13 +367,13 @@
 }
 
 .contacts-val {
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-primary);
 }
 
 .contacts-sub {
-  font-size: 0.8125rem;
+  font-size: 0.78rem;
   color: var(--text-secondary);
   margin-top: 4px;
   line-height: 1.4;
@@ -211,12 +382,12 @@
 @media (max-width: 768px) {
   .contacts-card {
     grid-template-columns: 1fr;
-    gap: 18px;
+    gap: 16px;
   }
 }
 
 /* ==========================================================================
-   4. Модальное окно записи перед переходом в чат
+   6. Модальное окно и Лайтбокс
    ========================================================================== */
 .order-modal-backdrop {
   position: fixed;
@@ -244,9 +415,9 @@
   background: var(--bg-canvas);
   border: 1px solid var(--hairline);
   width: 100%;
-  max-width: 420px;
+  max-width: 400px;
   border-radius: var(--radius-sm);
-  padding: 24px;
+  padding: 22px;
   position: relative;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.16);
 }
@@ -255,7 +426,7 @@
   position: absolute;
   top: 14px;
   right: 14px;
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   color: var(--text-secondary);
   width: 28px;
   height: 28px;
@@ -270,68 +441,39 @@
 
 .order-modal-title {
   font-family: var(--font-serif);
-  font-size: 1.375rem;
+  font-size: 1.3rem;
   font-weight: 400;
   color: var(--text-primary);
 }
 
 .order-modal-sub {
-  font-size: 0.8125rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
   margin-top: 4px;
 }
 
 .order-services-preview {
-  margin: 16px 0;
-  padding: 12px;
+  margin: 14px 0;
+  padding: 10px 12px;
   background: var(--bg-surface-elevated);
   border-radius: var(--radius-xs);
   border: 1px solid var(--hairline);
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 500;
   color: var(--text-primary);
   line-height: 1.4;
 }
 
-.order-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 12px;
-}
-
-.order-field-label {
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-}
-
-.order-input {
-  border: 1px solid var(--hairline);
-  background: #FFFFFF;
-  padding: 10px 12px;
-  border-radius: var(--radius-xs);
-  font-size: 0.9375rem;
-  color: var(--text-primary);
-  font-family: inherit;
-}
-
-.order-input:focus {
-  outline: 2px solid var(--accent-terra);
-}
-
 .order-submit-btn {
   width: 100%;
   margin-top: 8px;
-  height: 44px;
+  height: 42px;
   background: var(--accent-terra);
   color: #FFFFFF;
   border: none;
   border-radius: var(--radius-xs);
   font-weight: 500;
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -341,32 +483,6 @@
 
 .order-submit-btn:hover {
   background-color: var(--accent-terra-hover);
-}
-
-/* ==========================================================================
-   5. Лайтбокс и уведомление
-   ========================================================================== */
-.toast-notice {
-  position: fixed;
-  bottom: calc(var(--dock-height) + 16px);
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  background-color: #1C1815;
-  color: #FAF7F2;
-  font-size: 0.8125rem;
-  padding: 8px 16px;
-  border-radius: var(--radius-sm);
-  opacity: 0;
-  pointer-events: none !important;
-  z-index: var(--z-toast);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
-  transition: opacity var(--time-normal) var(--ease-out),
-              transform var(--time-normal) var(--ease-out);
-}
-
-.toast-notice.is-visible {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
 }
 
 .lightbox-backdrop {
@@ -407,7 +523,7 @@
 
 .lightbox-btn-close {
   position: absolute;
-  top: -42px;
+  top: -38px;
   right: 0;
   color: #FFFFFF;
   width: 32px;
