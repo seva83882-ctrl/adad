@@ -5,7 +5,7 @@
   --bg-surface-elevated: #F9F6F0;
   --bg-hover: rgba(178, 76, 47, 0.04);
   --bg-selected: rgba(178, 76, 47, 0.08);
-  --bg-glass: rgba(245, 239, 230, 0.88);
+  --bg-glass: rgba(245, 239, 230, 0.85);
 
   /* Текст */
   --text-primary: #1C1815;
@@ -18,17 +18,16 @@
 
   /* Тонкие линии */
   --hairline: rgba(28, 24, 21, 0.10);
-  --hairline-glass-top: rgba(255, 255, 255, 0.5);
+  --hairline-glass-top: rgba(255, 255, 255, 0.4);
 
   /* Радиусы */
   --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-hero: 20px;
 
   /* Размеры */
   --nav-height: 56px;
-  --dock-height: 60px;
+  --dock-height: 64px;
   --site-width: 1040px;
 
   /* Шрифты */
